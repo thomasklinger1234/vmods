@@ -1,0 +1,56 @@
+# Copyright (c) 2023 Thomas Klinger
+# Author: Thomas Klinger <thomas.klinger@otto.de>
+# (vmodtool requires this format.)
+
+$Module tracecontext 3 "Provides W3C tracecontext"
+
+We describe our vmod, all lines starting with a $ are special as they
+are used to generate boilerplate code, the others are regular documentation
+
+The `tracecontext` above matches the `vmod_tracecontext` in `Cargo.toml`
+
+for more information, check https://varnish-cache.org/docs/trunk/reference/vmod.html
+
+$Function STRING extract_trace_flags(STRING)
+
+DOCS DOCS DOCS
+
+$Function STRING extract_trace_id(STRING)
+
+DOCS DOCS DOCS
+
+$Function STRING extract_trace_state(STRING)
+
+DOCS DOCS DOCS
+
+$Function STRING extract_span_id(STRING)
+
+DOCS DOCS DOCS
+
+$Function STRING extract_span_version(STRING)
+
+DOCS DOCS DOCS
+
+$Function BOOL trace_is_remote(STRING)
+
+DOCS DOCS DOCS
+
+$Function BOOL trace_is_valid(STRING)
+
+DOCS DOCS DOCS
+
+$Function STRING traceparent_header()
+
+DOCS DOCS DOCS
+
+$Function STRING tracestate_header()
+
+DOCS DOCS DOCS
+
+$Function VOID inject_trace_parent()
+
+DOCS DOCS DOCS
+
+$Function VOID inject_trace_state()
+
+DOCS DOCS DOCS

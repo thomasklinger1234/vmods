@@ -1,0 +1,21 @@
+[licenses]
+unlicensed = "deny"
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "ISC",
+    "BSD-3-Clause",
+    "OpenSSL"
+]
+
+[licenses.private]
+ignore = true
+
+[advisories]
+ignore = [
+    # unsoundness in indirect dependencies without a safe upgrade below
+    "RUSTSEC-2021-0145",
+    "RUSTSEC-2019-0036"
+]
+unmaintained = "allow"
+yanked = "allow"

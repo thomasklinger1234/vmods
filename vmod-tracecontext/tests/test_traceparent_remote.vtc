@@ -1,0 +1,43 @@
+# first thing to do: give a title to the test
+varnishtest "testint tracecontext"
+
+# describe what the server should receive and send back
+# "man vtc" is your friend here
+server s1 {
+	rxreq
+	expect req.url == "/"
+	expect req.http.X-Trace-Version == "00"
+	expect req.http.X-Trace-Flags == "01"
+	expect req.http.X-Trace-Remote == true
+	expect req.http.X-Trace-Valid == true
+	txresp
+} -start
+
+# set up the varnish server with our custom logic
+varnish v1 -vcl+backend {
+	import tracecontext from "${vmod}";
+
+	sub vcl_recv {
+	    // setup test remote headers
+	    set req.http.traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
+	    set req.http.tracestate = "foo=bar";
+
+	    set req.http.X-Trace-Version = tracecontext.extract_span_version(req.http.traceparent);
+	    set req.http.X-Trace-SpanId = tracecontext.extract_span_id(req.http.traceparent);
+	    set req.http.X-Trace-Id = tracecontext.extract_trace_id(req.http.traceparent);
+	    set req.http.X-Trace-Flags = tracecontext.extract_trace_flags(req.http.traceparent);
+	    set req.http.X-Trace-Remote = tracecontext.trace_is_remote(req.http.traceparent);
+	    set req.http.X-Trace-Valid = tracecontext.trace_is_valid(req.http.traceparent);
+
+	    tracecontext.inject_trace_parent();
+	    tracecontext.inject_trace_state();
+	}
+} -start
+
+# finally, run the client, if something goes wrong, the server
+# will complain, and we won't receive a response back
+client c1 {
+	txreq -url "/"
+	rxresp
+	expect resp.status == 200
+} -run

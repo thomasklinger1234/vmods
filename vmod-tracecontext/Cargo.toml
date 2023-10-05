@@ -1,0 +1,17 @@
+[package]
+name = "vmod_tracecontext"
+version = "0.0.1"
+edition = "2021"
+
+[build-dependencies]
+varnish = "0.0.16"
+
+[dependencies]
+varnish = "0.0.16"
+varnish-sys = "0.0.16"
+rand = "0.8.5"
+opentelemetry = "0.20.0"
+opentelemetry_sdk = "0.20.0"
+
+[lib]
+crate-type = ["cdylib"]

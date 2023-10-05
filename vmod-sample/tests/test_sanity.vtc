@@ -1,0 +1,28 @@
+# first thing to do: give a title to the test
+varnishtest "testing sample: sanity for import"
+
+# describe what the server should receive and send back
+# "man vtc" is your friend here
+server s1 {
+	rxreq
+	expect req.url == "/"
+	expect req.http.X-Greeting == "Hello, World!"
+	txresp
+} -start
+
+# set up the varnish server with our custom logic
+varnish v1 -vcl+backend {
+	import sample from "${vmod}";
+
+	sub vcl_recv {
+        set req.http.X-Greeting = sample.greet("World");
+	}
+} -start
+
+# finally, run the client, if something goes wrong, the server
+# will complain, and we won't receive a response back
+client c1 {
+	txreq -url "/"
+	rxresp
+	expect resp.status == 200
+} -run

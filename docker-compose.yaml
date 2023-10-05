@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  varnish:
+    image: varnish:7.1
+    volumes:
+      - ./default.vcl:/etc/varnish/default.vcl
+    ports:
+      - "8080:80"

@@ -1,0 +1,16 @@
+# Copyright (c) 2023 Thomas Klinger
+# Author: Thomas Klinger <thomas.klinger@otto.de>
+# (vmodtool requires this format.)
+
+$Module sample 3 "Provides something"
+
+We describe our vmod, all lines starting with a $ are special as they
+are used to generate boilerplate code, the others are regular documentation
+
+The `sample` above matches the `vmod_sample` in `Cargo.toml`
+
+for more information, check https://varnish-cache.org/docs/trunk/reference/vmod.html
+
+$Function STRING greet(STRING)
+
+DOCS DOCS DOCS
